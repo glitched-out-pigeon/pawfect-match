@@ -41,6 +41,24 @@ async def test_get_vet_records():
     assert isinstance(response.json(), list)
 
 @pytest.mark.asyncio
+async def test_get_medical_records_new_endpoint():
+    # Confirms the new /medical-records/ endpoint works identically to /vet-records/
+    async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as client:
+        response = await client.get("/medical-records/")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+@pytest.mark.asyncio
+async def test_old_and_new_endpoint_return_same_data():
+    # Confirms zero-downtime migration: both old and new paths serve identical data
+    async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as client:
+        old_response = await client.get("/vet-records/")
+        new_response = await client.get("/medical-records/")
+    assert old_response.status_code == 200
+    assert new_response.status_code == 200
+    assert old_response.json() == new_response.json()
+
+@pytest.mark.asyncio
 async def test_get_intake_records():
     async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as client:
         response = await client.get("/intake-records/")

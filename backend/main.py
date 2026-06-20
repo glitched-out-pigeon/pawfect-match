@@ -19,6 +19,7 @@ app.include_router(employees.router,      prefix="/employees",      tags=["Emplo
 app.include_router(adopters.router,       prefix="/adopters",       tags=["Adopters"])
 app.include_router(applications.router,   prefix="/applications",   tags=["Applications"])
 app.include_router(vet_records.router,    prefix="/vet-records",    tags=["Vet Records"])
+app.include_router(vet_records.router,    prefix="/medical-records", tags=["Medical Records (new)"])
 app.include_router(intake_records.router, prefix="/intake-records", tags=["Intake Records"])
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(rehoming.router, prefix="/rehoming", tags=["Rehoming"])
